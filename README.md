@@ -18,7 +18,6 @@
 
 - 최초 릴리즈에는 v0.0.1 을 기본으로 릴리즈 하게 됩니다.
 
-
 **Basic:**
 
 ```yaml
@@ -61,7 +60,20 @@ steps:
 ```
 
 
+## 주의사항
+자체적으로 github cli `gh` 를 사용해서 release를 하기 때문에,
+`GH_TOKEN` 환경변수를 꼭 설정해주세요.
+
 ## Customizing
+
+### .releaserc
+project root에 `.releaserc` 파일이 존재하면 해당 파일을 사용합니다.
+
+사용된 plugins 관련해서 필요한 환경변수도 함께 설정해주셔야 합니다.
+
+##### 예
+- GITHUB_TOKEN
+- NODE_AUTH_TOKEN
 
 ### inputs
 
