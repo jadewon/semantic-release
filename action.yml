@@ -20,13 +20,26 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Copy configuration files
+      shell: bash
+      run: |
+        cp $GITHUB_ACTION_PATH/release.sh .
+        [[ -z ./.releaserc ]] && cp $GITHUB_ACTION_PATH/.releaserc .
+
     - name: Test1
       shell: bash
       run: |
         ls -al
+        echo "----------------------------------------------------------"
 
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Test2
+      shell: bash
+      run: |
+        ls -al
+        echo "----------------------------------------------------------"
 
     - name: Use Node.js
       uses: actions/setup-node@v4
