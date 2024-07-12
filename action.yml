@@ -42,6 +42,7 @@ runs:
       run: |
         ls -al
         echo '${{ inputs.prefix }}${version}'
+        printenv
 
     - name: Run semantic-release
       shell: bash
