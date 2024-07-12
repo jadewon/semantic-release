@@ -9,12 +9,12 @@
 - 그 외 브랜치에서는 extra 버전 번호를 추가로 부여해서 관리고, prerelease가 됩니다.
 > Note: 이 경우에는 마지막 릴리즈 버전에서 extra 버전 번호가 추가됩니다
 
-| 마지막 릴리즈 버전  | 다음 릴리즈 버전 |
-|-|-|
-| v0.0.1 | v0.0.1.1 |
-| v0.0.1.1 | v0.0.1.2 |
-| submodule-v40.24.7 | submodule-v40.24.7.1 |
-| submodule-v0.2.53.123 | submodule-v0.2.53.124 |
+| prefix | 마지막 릴리즈 버전  | 다음 릴리즈 버전 |
+|-|-|-|
+| v | v0.0.1 | v0.0.1.1 |
+| v | v0.0.1.1 | v0.0.1.2 |
+| submodule-v | submodule-v40.24.7 | submodule-v40.24.7.1 |
+| submodule-v | submodule-v0.2.53.123 | submodule-v0.2.53.124 |
 
 - 최초 릴리즈에는 v0.0.1 을 기본으로 릴리즈 하게 됩니다.
 

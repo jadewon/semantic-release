@@ -1,0 +1,11 @@
+{
+  "name": "semantic-release",
+  "version": "0.0.1",
+  "description": "<h1 align=\"center\" style=\"border-bottom: none;\">📦🚀 semantic-release</h1> <h3 align=\"center\">프로젝트와 분리해서 사용하는 Github Custom Action</h3>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
