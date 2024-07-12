@@ -110,6 +110,8 @@ runs:
           RELEASE_VERSION=$(cat .VERSION)
           RELEASE_VERSION_TAG=$(echo "${PREFIX}${RELEASE_VERSION}")
         fi
-        echo "outputs:\n  version=$RELEASE_VERSION\n  tag=$RELEASE_VERSION_TAG"
+        echo "outputs:"
+        echo "  version=$RELEASE_VERSION"
+        echo "  tag=$RELEASE_VERSION_TAG"
         echo "version=$RELEASE_VERSION" >> $GITHUB_OUTPUT
         echo "tag=$RELEASE_VERSION_TAG" >> $GITHUB_OUTPUT
