@@ -24,17 +24,19 @@ runs:
       shell: bash
       run: |
         echo $GITHUB_ACTION_PATH
-        ls $GITHUB_ACTION_PATH
+        ls -al $GITHUB_ACTION_PATH
 
     - name: Copy configuration files
       shell: bash
       run: |
         cp $GITHUB_ACTION_PATH/release.sh .
+        ls -al
 
     - name: Copy configuration files2
       shell: bash
       run: |
-        [[ -z ./.releaserc ]] && cp $GITHUB_ACTION_PATH/.releaserc .
+        [[ ! -f ./.releaserc ]] && cp $GITHUB_ACTION_PATH/.releaserc .
+        ls -al
 
     - name: Test1
       shell: bash
