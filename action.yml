@@ -23,6 +23,7 @@ runs:
     - name: Copy configuration files
       shell: bash
       run: |
+        # Copy configuration files
         if [[ -f ./.releaserc ]]; then
           # 기존에 사용하던 @semantic-release/exec 의 아래 명령어가 동작안함
           # echo \"RELEASE_VERSION=${nextRelease.version}\" >> $GITHUB_ENV
@@ -39,23 +40,26 @@ runs:
       with:
         node-version: ${{ inputs.node-version }}
 
-    - name: Install semantic-release
+    - name: Install semantic-release package
       shell: bash
       run: |
-        npm install --save-dev \
-          semantic-release \
-          @semantic-release/commit-analyzer \
-          @semantic-release/changelog \
-          @semantic-release/release-notes-generator \
-          @semantic-release/git \
-          @semantic-release/github \
-          @semantic-release/exec
+        # Install semantic-release package
+        npm install --save-dev semantic-release $( jq -r '.plugins[] | (if type == "array" then .[0] else . end)' .releaserc | xargs echo)
+        # npm install --save-dev \
+        #   semantic-release \
+        #   @semantic-release/commit-analyzer \
+        #   @semantic-release/changelog \
+        #   @semantic-release/release-notes-generator \
+        #   @semantic-release/git \
+        #   @semantic-release/github \
+        #   @semantic-release/exec
+        # jq -r '.plugins[] | (if type == "array" then .[0] else . end)' .releaserc
 
     - name: Run semantic-release
       shell: bash
       run: |
+        # Run semantic-release
         npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
-        echo "RELEASE_VERSION: $RELEASE_VERSION"
 
     - name: Export version
       id: release
@@ -63,9 +67,10 @@ runs:
       env:
         PREFIX: ${{ inputs.prefix }}
       run: |
+        # Export version
         # semantic-release 에서 버전 생성이 안되었을 경우 수동으로 생성
         if [[ ! -f .VERSION ]]; then
-          echo "semantic release 실패"
+          echo "Semantic Release 실행 안됨. 수동으로 생성"
           # 마지막 릴리즈 버전을 가져옴
           RELEASE_VERSION=$(gh release list -L 1 --exclude-drafts | cut -f 1)
           # extra 버전 번호 초기화
@@ -101,9 +106,10 @@ runs:
             gh release create ${RELEASE_VERSION_TAG} -t ${RELEASE_VERSION_TAG}
           fi
         else
-          echo "semantic release 성공"
+          echo "Semantic Release 실행 완료"
           RELEASE_VERSION=$(cat .VERSION)
           RELEASE_VERSION_TAG=$(echo "${PREFIX}${RELEASE_VERSION}")
         fi
+        echo "outputs:\n  version=$RELEASE_VERSION\n  tag=$RELEASE_VERSION_TAG"
         echo "version=$RELEASE_VERSION" >> $GITHUB_OUTPUT
         echo "tag=$RELEASE_VERSION_TAG" >> $GITHUB_OUTPUT
