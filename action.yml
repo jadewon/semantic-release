@@ -23,9 +23,16 @@ runs:
     - name: Copy configuration files
       shell: bash
       run: |
-        cp $GITHUB_ACTION_PATH/release.sh .
-        [[ ! -f ./.releaserc ]] && cp $GITHUB_ACTION_PATH/.releaserc .
-        ls -al
+        if [[ -f ./.releaserc ]]; then
+          # 기존에 사용하던 @semantic-release/exec 의 아래 명령어가 동작안함
+          # echo \"RELEASE_VERSION=${nextRelease.version}\" >> $GITHUB_ENV
+          # 따라서 .VERSION 파일로 저장해서 파일 존재 여부와 버전 문자열을 확인
+          jq '(.plugins[] | select(type == "array" and .[0] == "@semantic-release/exec") | .[1].successCmd) |= "echo ${nextRelease.version} > .VERSION"' .releaserc > .releaserc.new
+          rm .releaserc
+          mv .releaserc.new .releaserc
+        else
+          cp $GITHUB_ACTION_PATH/.releaserc .
+        fi
 
     - name: Use Node.js
       uses: actions/setup-node@v4
@@ -57,7 +64,7 @@ runs:
         PREFIX: ${{ inputs.prefix }}
       run: |
         # semantic-release 에서 버전 생성이 안되었을 경우 수동으로 생성
-        if [[ -z .VERSION ]]; then
+        if [[ ! -f .VERSION ]]; then
           echo "semantic release 실패"
           # 마지막 릴리즈 버전을 가져옴
           RELEASE_VERSION=$(gh release list -L 1 --exclude-drafts | cut -f 1)
@@ -100,9 +107,3 @@ runs:
         fi
         echo "version=$RELEASE_VERSION" >> $GITHUB_OUTPUT
         echo "tag=$RELEASE_VERSION_TAG" >> $GITHUB_OUTPUT
-
-    # - name: Run release.sh
-    #   id: release
-    #   shell: bash
-    #   run: |
-    #     ${{ github.action_path }}/release.sh "${{ inputs.prefix }}"

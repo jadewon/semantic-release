@@ -18,7 +18,7 @@ npx semantic-release --tag-format "${PREFIX}\${version}"
 # 따라서 .VERSION 파일로 저장해서 파일 존재 여부와 버전 문자열을 확인
 
 # semantic-release 에서 버전 생성이 안되었을 경우 수동으로 생성
-if [[ -z .VERSION ]]; then
+if [[ ! -f .VERSION ]]; then
   echo "semantic release 실패"
   # 마지막 릴리즈 버전을 가져옴
   RELEASE_VERSION=$(gh release list -L 1 --exclude-drafts | cut -f 1)
@@ -41,7 +41,6 @@ if [[ -z .VERSION ]]; then
       RELEASE_VERSION=$(echo "$RELEASE_VERSION" | cut -f1-3 -d'.')
     fi
   fi
-
 
   # release
   if [[ $IS_PRERELEASE == true ]]; then
