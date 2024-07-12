@@ -37,6 +37,12 @@ runs:
           @semantic-release/github \
           @semantic-release/exec
 
+    - name: Test
+      shell: bash
+      run: |
+        ls -al
+        echo '${{ inputs.prefix }}${version}'
+
     - name: Run semantic-release
       shell: bash
       run: |
