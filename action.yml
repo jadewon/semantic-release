@@ -29,4 +29,4 @@ runs:
       id: release
       shell: bash
       run: |
-        ./release.sh "${{ inputs.prefix }}"
+        ${{ github.action_path }}/release.sh "${{ inputs.prefix }}"
